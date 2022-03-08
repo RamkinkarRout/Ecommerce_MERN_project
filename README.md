@@ -2,15 +2,20 @@
 
 ## TECH
 
-1.NODE
-2.REACT
-3.EXPRESS
-4.MONGODB
-5.RESTAPI
-6.STRIPE
+-NODE
+
+-REACT
+
+-EXPRESS
+
+-MONGODB
+
+-RESTAPI
+
+-STRIPE
 
 ## Install Dependencies
 
-### For Backend - npm i
+### For Backend - `npm i`
 
-### For Frontend - cd frontend npm i
+### For Frontend - `cd frontend npm i`
