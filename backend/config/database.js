@@ -10,9 +10,6 @@ const connectDatabase = () => {
       console.log(
         `Connected to database with ${data.connections[0].name}`
       );
-    })
-    .catch((err) => {
-      console.log(err);
     });
 };
 

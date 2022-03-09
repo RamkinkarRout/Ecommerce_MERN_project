@@ -5,7 +5,14 @@ module.exports = (err, req, res, next) => {
   err.message = err.message || "Internal Server Error";
   err.status = err.status || "error";
 
-  // const error = new ErrorHander(err.message, err.statusCode);
+  //mongodb cast error --> id not given
+
+  if (err.name === "CastError") {
+    err = new ErrorHander(
+      `Resource not found with id of ${err.value}`,
+      404
+    );
+  }
 
   res.status(err.statusCode).json({
     status: err.status,
