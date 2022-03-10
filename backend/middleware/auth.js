@@ -1,6 +1,7 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncError = require("./catchAsyncError");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = catchAsyncError(
   async (req, res, next) => {
@@ -15,7 +16,7 @@ exports.isAuthenticatedUser = catchAsyncError(
       );
     }
 
-    const decodedToken = await jwt.verify(
+    const decodedToken = jwt.verify(
       token,
       process.env.JWT_SECRET
     );
@@ -26,7 +27,22 @@ exports.isAuthenticatedUser = catchAsyncError(
       );
     }
 
-    req.user = decodedToken;
+    req.user = await User.findById(decodedToken.id);
     next();
   }
 );
+
+//admin role check
+exports.authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorHander(
+          "You are not authorized to perform this action",
+          403
+        )
+      );
+    }
+    next();
+  };
+};
