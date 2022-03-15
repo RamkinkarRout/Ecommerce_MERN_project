@@ -13,7 +13,12 @@ function App() {
   useEffect(() => {
     Webfont.load({
       google: {
-        families: ["Roboto", "Droid Sans", "Chilanka"],
+        families: [
+          "Roboto:300,400,500,700",
+          "sans-serif",
+          "Droid Sans",
+          "Chilanka",
+        ],
       },
     });
   }, []);
