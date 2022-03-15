@@ -121,6 +121,7 @@ exports.updateOrder = catchAsyncError(
     await order.save({ validateBeforeSave: false });
     res.status(200).json({
       success: true,
+      order,
     });
   }
 );
@@ -128,7 +129,7 @@ exports.updateOrder = catchAsyncError(
 async function updateStock(id, quantity) {
   const product = await Product.findById(id);
 
-  product.Stock -= quantity;
+  product.stock -= quantity;
 
   await product.save({ validateBeforeSave: false });
 }
