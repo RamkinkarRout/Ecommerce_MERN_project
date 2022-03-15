@@ -20,8 +20,8 @@ exports.createProduct = catchAsyncError(
 
 //Get all products
 exports.getAllProducts = catchAsyncError(
-  async (req, res) => {
-    const resultPerPage = 5;
+  async (req, res, next) => {
+    const resultPerPage = 8;
     const productCount = await Product.countDocuments();
     const apiFeature = new ApiFeatures(
       Product.find(),
@@ -30,12 +30,12 @@ exports.getAllProducts = catchAsyncError(
       .search()
       .filter()
       .pagination(resultPerPage);
-    const product = await apiFeature.query;
+    const products = await apiFeature.query;
     res.status(200).json({
       status: "success",
       message: "Products fetched successfully",
       productCount,
-      product,
+      products,
     });
   }
 );
@@ -110,7 +110,7 @@ exports.createProductReview = catchAsyncError(
     const { rating, comment, productId } = req.body;
 
     const review = {
-      user: req.user.id,
+      user: req.user._id,
       name: req.user.name,
       rating: Number(rating),
       comment,
@@ -125,29 +125,27 @@ exports.createProductReview = catchAsyncError(
 
     if (isReviewed) {
       product.reviews.forEach((rev) => {
-        if (
-          rev.user.toString() === req.user._id.toString()
-        ) {
-          rev.rating = rating;
-          rev.comment = comment;
-        }
+        if (rev.user.toString() === req.user._id.toString())
+          (rev.rating = rating), (rev.comment = comment);
       });
     } else {
       product.reviews.push(review);
-      product.numofReviews = product.reviews.length;
+      product.numOfReviews = product.reviews.length;
     }
 
     let avg = 0;
+
     product.reviews.forEach((rev) => {
       avg += rev.rating;
     });
+
     product.ratings = avg / product.reviews.length;
 
     await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
-      status: "success",
-      message: "Product review created successfully",
+      success: true,
+      message: "Review created successfully",
       product,
     });
   }

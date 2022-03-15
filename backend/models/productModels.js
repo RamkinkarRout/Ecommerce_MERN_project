@@ -40,7 +40,7 @@ const productSchema = new mongoose.Schema({
     maxlength: [4, "Stock cannot be more than 4 digits"],
     default: 1,
   },
-  numOfViews: {
+  numOfReviews: {
     type: Number,
     default: 0,
   },
