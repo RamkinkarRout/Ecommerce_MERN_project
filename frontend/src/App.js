@@ -1,12 +1,12 @@
 import "./App.css";
 import Header from "./components/layout/Header";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
-    </BrowserRouter>
+    </Router>
   );
 }
 
