@@ -1,5 +1,13 @@
+import "./App.css";
+import Header from "./components/layout/Header";
+import { BrowserRouter } from "react-router-dom";
+
 function App() {
-  return <div>Ecommerce Website</div>;
+  return (
+    <BrowserRouter>
+      <Header />
+    </BrowserRouter>
+  );
 }
 
 export default App;
