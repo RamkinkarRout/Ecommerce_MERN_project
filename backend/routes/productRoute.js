@@ -4,7 +4,7 @@ const {
   createProduct,
   updateProducts,
   deleteProduct,
-  getProductById,
+  getProductDetails,
   createProductReview,
   getProductReviews,
   deleteProductReview,
@@ -38,7 +38,7 @@ router
     deleteProduct
   );
 
-router.route("/product/:id").get(getProductById);
+router.route("/product/:id").get(getProductDetails);
 
 router
   .route("/review")

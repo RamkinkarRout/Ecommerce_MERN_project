@@ -8,6 +8,7 @@ import Webfont from "webfontloader";
 import Header from "./components/layout/header/Header";
 import Footer from "./components/layout/footer/Footer";
 import Home from "./components/home/Home";
+import ProductDetails from "./components/productDetails/ProductDetails";
 
 function App() {
   useEffect(() => {
@@ -26,6 +27,11 @@ function App() {
     <Router>
       <Header />
       <Route path='/' exact component={Home} />
+      <Route
+        path='/product/:id'
+        exact
+        component={ProductDetails}
+      />
       <Footer />
     </Router>
   );
