@@ -9,6 +9,8 @@ import Header from "./components/layout/header/Header";
 import Footer from "./components/layout/footer/Footer";
 import Home from "./components/home/Home";
 import ProductDetails from "./components/productDetails/ProductDetails";
+import Products from "./components/products/Products.js";
+import Search from "./components/products/Search.js";
 
 function App() {
   useEffect(() => {
@@ -32,6 +34,13 @@ function App() {
         exact
         component={ProductDetails}
       />
+
+      <Route path='/products' exact component={Products} />
+      <Route
+        path='/products/:keyword'
+        component={Products}
+      />
+      <Route path='/search' exact component={Search} />
       <Footer />
     </Router>
   );

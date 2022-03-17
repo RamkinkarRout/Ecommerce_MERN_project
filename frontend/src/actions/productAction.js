@@ -11,25 +11,27 @@ import {
 } from "../constants/productConstants";
 
 //product reducer
-export const getProducts = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: ALL_PRODUCT_REQUEST,
-    });
-    const { data } = await axios.get(
-      `/api/version1/product`
-    );
-    dispatch({
-      type: ALL_PRODUCT_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_PRODUCT_FAILURE,
-      payload: error.response.data.message,
-    });
-  }
-};
+export const getProducts =
+  (keyword = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: ALL_PRODUCT_REQUEST,
+      });
+
+      let link = `/api/version1/product?keyword=${keyword}`;
+      const { data } = await axios.get(link);
+      dispatch({
+        type: ALL_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCT_FAILURE,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 //get product details reducer
 
