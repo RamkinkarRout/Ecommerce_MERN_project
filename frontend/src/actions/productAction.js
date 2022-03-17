@@ -12,14 +12,14 @@ import {
 
 //product reducer
 export const getProducts =
-  (keyword = "") =>
+  (keyword = "", currentPage = 1) =>
   async (dispatch) => {
     try {
       dispatch({
         type: ALL_PRODUCT_REQUEST,
       });
 
-      let link = `/api/version1/product?keyword=${keyword}`;
+      let link = `/api/version1/product?keyword=${keyword}&page=${currentPage}`;
       const { data } = await axios.get(link);
       dispatch({
         type: ALL_PRODUCT_SUCCESS,

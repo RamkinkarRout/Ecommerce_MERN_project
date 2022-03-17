@@ -1,4 +1,8 @@
-import React, { Fragment, useEffect } from "react";
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+} from "react";
 import "./products.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,13 +11,23 @@ import {
 } from "../../actions/productAction";
 import Loader from "../layout/loader/Loader";
 import ProductCard from "../home/ProductCard";
+import Pagination from "react-js-pagination";
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading, error, products, productCount } =
-    useSelector((state) => state.products);
+  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    loading,
+    error,
+    products,
+    productCount,
+    resultPerPage,
+  } = useSelector((state) => state.products);
 
   const keyword = match.params.keyword;
+  const setCurrentPageNo = (e) => {
+    setCurrentPage(e);
+  };
 
   useEffect(() => {
     if (error) {
@@ -21,8 +35,8 @@ const Products = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getProducts(keyword));
-  }, [dispatch, error, keyword]);
+    dispatch(getProducts(keyword, currentPage));
+  }, [currentPage, dispatch, error, keyword]);
   return (
     <Fragment>
       {loading ? (
@@ -40,6 +54,24 @@ const Products = ({ match }) => {
                 />
               ))}
           </div>
+          {resultPerPage < productCount && (
+            <div className='paginationBox'>
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resultPerPage}
+                totalItemsCount={productCount}
+                onChange={setCurrentPageNo}
+                nextPageText='>>>'
+                prevPageText={"<<<"}
+                firstPageText={"First"}
+                lastPageText={"Last"}
+                itemClass='page-item'
+                linkClass='page-link'
+                activeClass='pageItemActive'
+                activeLinkClass='pageLinkActive'
+              />
+            </div>
+          )}
         </Fragment>
       )}
     </Fragment>

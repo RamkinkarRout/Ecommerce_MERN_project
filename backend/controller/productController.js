@@ -36,6 +36,7 @@ exports.getAllProducts = catchAsyncError(
       message: "Products fetched successfully",
       productCount,
       products,
+      resultPerPage,
     });
   }
 );
