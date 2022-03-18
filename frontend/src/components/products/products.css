@@ -74,3 +74,71 @@
   top: 12vmax;
   left: 4vmax;
 }
+
+.catagoryBox {
+  padding: 0%;
+  position: relative;
+}
+
+.category-link {
+  list-style: none;
+  color: rgba(0, 0, 0, 0.67);
+  font: 400 0.8vmax "Roboto", sans-serif;
+  margin: 0.4vmax;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.category-link:hover {
+  color: #ffc267;
+}
+
+.noProduct {
+  margin: 10vmax auto;
+  width: 80vw;
+  padding: 2vmax;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.17);
+  text-align: center;
+  font: 400 1.5vmax "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.67);
+}
+.noProduct > h2 {
+  margin-bottom: 10vmax;
+}
+
+.noProduct-link {
+  background-color: #ffc267;
+  border: none;
+  color: white;
+  padding: 1vmax 2vmax;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font: 400 1.5vmax "Roboto", sans-serif;
+  margin: 2vmax auto;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 20px;
+}
+
+.noProduct-link:hover {
+  background-color: #ffb600;
+  color: rgba(0, 0, 0, 0.397);
+}
+
+.filterBox > fieldset {
+  border: 1px solid rgba(0, 0, 0, 0.329);
+}
+
+@media screen and (max-width: 600px) {
+  .filterBox {
+    width: 20vmax;
+    margin: auto;
+    position: static;
+  }
+  .page-link {
+    font: 300 1.7vmax "Roboto";
+  }
+  .category-link {
+    font: 400 1.8vmax "Roboto";
+  }
+}

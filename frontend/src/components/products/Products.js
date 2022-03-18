@@ -12,18 +12,35 @@ import {
 import Loader from "../layout/loader/Loader";
 import ProductCard from "../home/ProductCard";
 import Pagination from "react-js-pagination";
-import { Slider, Typography } from "@material-ui/core";
+import { Slider, Typography, Box } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
+import { Link } from "react-router-dom";
+
+const catagories = [
+  "Laptop",
+  "Mobile",
+  "Tablet",
+  "Camera",
+  "Television",
+  "Headphone",
+  "Speaker",
+  "Earphone",
+  "Watch",
+];
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 160000]);
+  const [category, setCategory] = useState("");
+  const [ratings, setRatings] = useState(0);
   const {
     loading,
     error,
     products,
     productCount,
     resultPerPage,
+    filteredProductCount,
   } = useSelector((state) => state.products);
 
   const keyword = match.params.keyword;
@@ -37,9 +54,25 @@ const Products = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getProducts(keyword, currentPage, price));
-  }, [currentPage, dispatch, error, keyword, price]);
-
+    dispatch(
+      getProducts(
+        keyword,
+        currentPage,
+        price,
+        category,
+        ratings
+      )
+    );
+  }, [
+    currentPage,
+    dispatch,
+    error,
+    keyword,
+    price,
+    category,
+    ratings,
+  ]);
+  let count = filteredProductCount;
   return (
     <Fragment>
       {loading ? (
@@ -67,11 +100,43 @@ const Products = ({ match }) => {
               aria-labelledby='range-slider'
               min={0}
               max={160000}
+              style={{ color: "#ffc267" }}
             />
+
+            <Typography>Categories</Typography>
+            <ul className='catagoryBox'>
+              {catagories.map((category) => (
+                <li
+                  className='category-link'
+                  key={category}
+                  onClick={() => setCategory(category)}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+
+            <Box
+              component={"fieldset"}
+              mb={3}
+              borderColor='transparent'
+            >
+              <Typography component={"legend"}>
+                Ratings Above
+              </Typography>
+              <Rating
+                name='simple-controlled'
+                value={ratings}
+                onChange={(event, newValue) => {
+                  setRatings(newValue);
+                }}
+                onClick={() => setRatings(0)}
+              />
+            </Box>
           </div>
 
           {/* Pagination */}
-          {resultPerPage < productCount && (
+          {resultPerPage <= count && (
             <div className='paginationBox'>
               <Pagination
                 activePage={currentPage}
@@ -87,6 +152,17 @@ const Products = ({ match }) => {
                 activeClass='pageItemActive'
                 activeLinkClass='pageLinkActive'
               />
+            </div>
+          )}
+
+          {/* for no product */}
+          {count === 0 && (
+            <div className='noProduct'>
+              <h2>No product found 😓</h2>
+
+              <Link to='/' className='noProduct-link'>
+                Back to Home
+              </Link>
             </div>
           )}
         </Fragment>

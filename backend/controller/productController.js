@@ -31,12 +31,14 @@ exports.getAllProducts = catchAsyncError(
       .filter()
       .pagination(resultPerPage);
     const products = await apiFeature.query;
+    let filteredProductCount = products.length;
     res.status(200).json({
       status: "success",
       message: "Products fetched successfully",
       productCount,
       products,
       resultPerPage,
+      filteredProductCount,
     });
   }
 );
