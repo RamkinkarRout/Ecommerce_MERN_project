@@ -12,10 +12,12 @@ import {
 import Loader from "../layout/loader/Loader";
 import ProductCard from "../home/ProductCard";
 import Pagination from "react-js-pagination";
+import { Slider, Typography } from "@material-ui/core";
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice] = useState([0, 160000]);
   const {
     loading,
     error,
@@ -35,8 +37,9 @@ const Products = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getProducts(keyword, currentPage));
-  }, [currentPage, dispatch, error, keyword]);
+    dispatch(getProducts(keyword, currentPage, price));
+  }, [currentPage, dispatch, error, keyword, price]);
+
   return (
     <Fragment>
       {loading ? (
@@ -54,6 +57,20 @@ const Products = ({ match }) => {
                 />
               ))}
           </div>
+          {/* Filter */}
+          <div className='filterBox'>
+            <Typography>Price</Typography>
+            <Slider
+              value={price}
+              onChange={(e, value) => setPrice(value)}
+              valueLabelDisplay='auto'
+              aria-labelledby='range-slider'
+              min={0}
+              max={160000}
+            />
+          </div>
+
+          {/* Pagination */}
           {resultPerPage < productCount && (
             <div className='paginationBox'>
               <Pagination
