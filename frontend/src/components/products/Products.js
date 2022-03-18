@@ -10,6 +10,7 @@ import {
   getProducts,
 } from "../../actions/productAction";
 import Loader from "../layout/loader/Loader";
+import { useAlert } from "react-alert";
 import ProductCard from "../home/ProductCard";
 import Pagination from "react-js-pagination";
 import { Slider, Typography, Box } from "@material-ui/core";
@@ -30,6 +31,7 @@ const catagories = [
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
+  const alert = useAlert();
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 160000]);
   const [category, setCategory] = useState("");
@@ -71,6 +73,7 @@ const Products = ({ match }) => {
     price,
     category,
     ratings,
+    alert,
   ]);
   let count = filteredProductCount;
   return (

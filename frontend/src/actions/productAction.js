@@ -28,7 +28,7 @@ export const getProducts =
       let link = `/api/version1/product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
 
       if (category) {
-        link += `&catagory=${category}&ratings[gte]=${ratings}`;
+        link += `&catagory=${category}`;
       }
 
       const { data } = await axios.get(link);
