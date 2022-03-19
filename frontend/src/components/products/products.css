@@ -15,6 +15,7 @@
   margin: 2vmax auto;
   width: 80vw;
   padding: 2vmax;
+
   /* border-bottom: 1px solid rgba(0, 0, 0, 0.17); */
 }
 .paginationBox {
@@ -106,14 +107,14 @@
 }
 
 .noProduct-link {
-  background-color: #ffc267;
-  border: none;
-  color: white;
+  background-color: transparent;
+  border: 1px solid #ffc267;
+  color: rgba(0, 0, 0, 0.67);
   padding: 1vmax 2vmax;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font: 400 1.5vmax "Roboto", sans-serif;
+  font: 400 1.3vmax "Roboto", sans-serif;
   margin: 2vmax auto;
   cursor: pointer;
   transition: all 0.3s;
@@ -121,8 +122,8 @@
 }
 
 .noProduct-link:hover {
-  background-color: #ffb600;
-  color: rgba(0, 0, 0, 0.397);
+  background-color: #ffc267;
+  color: white;
 }
 
 .filterBox > fieldset {
@@ -130,7 +131,7 @@
 }
 .resetButton {
   border-color: #ffb600 !important;
-  color: rgba(0, 0, 0, 0.459) !important;
+  color: rgba(0, 0, 0, 0.589) !important;
   transition: all 0.5s !important;
 }
 .resetButton:hover {
@@ -149,5 +150,9 @@
   }
   .category-link {
     font: 400 1.8vmax "Roboto";
+  }
+  .noProduct-link {
+    font: 400 1.8vmax "Roboto";
+    padding: 6px 10px;
   }
 }

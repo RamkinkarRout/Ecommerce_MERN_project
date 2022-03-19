@@ -21,6 +21,7 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { Link } from "react-router-dom";
+import MetaData from "../layout/MetaData";
 
 const catagories = [
   "Laptop",
@@ -69,6 +70,7 @@ const Products = ({ match }) => {
         price,
         category,
         ratings,
+
         reset
       )
     );
@@ -90,6 +92,7 @@ const Products = ({ match }) => {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title={"AMAZON -- PRODUCTS"} />
           <h2 className='productsHeading'>Products</h2>
 
           <div className='products'>
@@ -154,7 +157,7 @@ const Products = ({ match }) => {
                   setCategory("");
                   setRatings(0);
                 }
-                return false;
+                return setReset(false);
               }}
               className='resetButton'
             >
@@ -185,7 +188,7 @@ const Products = ({ match }) => {
           {/* for no product */}
           {count === 0 && (
             <div className='noProduct'>
-              <h2>No product found 😓</h2>
+              <h2>No product found 😿</h2>
 
               <Link to='/' className='noProduct-link'>
                 Back to Home
