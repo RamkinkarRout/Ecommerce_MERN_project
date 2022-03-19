@@ -70,7 +70,6 @@ const Products = ({ match }) => {
         price,
         category,
         ratings,
-
         reset
       )
     );

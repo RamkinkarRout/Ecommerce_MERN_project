@@ -11,6 +11,7 @@ import Home from "./components/home/Home";
 import ProductDetails from "./components/productDetails/ProductDetails";
 import Products from "./components/products/Products.js";
 import Search from "./components/products/Search.js";
+import LoginSignUp from "./components/User/LoginSignUp";
 
 function App() {
   useEffect(() => {
@@ -41,6 +42,7 @@ function App() {
         component={Products}
       />
       <Route path='/search' exact component={Search} />
+      <Route path='/login' exact component={LoginSignUp} />
       <Footer />
     </Router>
   );
