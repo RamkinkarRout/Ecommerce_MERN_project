@@ -1,6 +1,6 @@
 .banner {
-  /* background-image: url("../../images/cover.jfif"); */
-  background-color: aqua;
+  /* background-image: url("https://bgr.com/wp-content/uploads/2019/11/amazon-sign-black-friday-deals.jpg"); */
+  /* background-color: aqua; */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -17,10 +17,6 @@
   margin: 5vmax;
 
   font: 600 2.5vmax "Roboto";
-}
-
-.banner > p {
-  font: 300 1.4vmax "Lucida Sans";
 }
 
 .banner > a > button {
