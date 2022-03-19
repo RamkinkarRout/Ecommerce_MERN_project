@@ -13,7 +13,12 @@ import Loader from "../layout/loader/Loader";
 import { useAlert } from "react-alert";
 import ProductCard from "../home/ProductCard";
 import Pagination from "react-js-pagination";
-import { Slider, Typography, Box } from "@material-ui/core";
+import {
+  Slider,
+  Typography,
+  Box,
+  Button,
+} from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { Link } from "react-router-dom";
 
@@ -36,6 +41,7 @@ const Products = ({ match }) => {
   const [price, setPrice] = useState([0, 160000]);
   const [category, setCategory] = useState("");
   const [ratings, setRatings] = useState(0);
+  const [reset, setReset] = useState(false);
   const {
     loading,
     error,
@@ -62,7 +68,8 @@ const Products = ({ match }) => {
         currentPage,
         price,
         category,
-        ratings
+        ratings,
+        reset
       )
     );
   }, [
@@ -74,6 +81,7 @@ const Products = ({ match }) => {
     category,
     ratings,
     alert,
+    reset,
   ]);
   let count = filteredProductCount;
   return (
@@ -121,7 +129,7 @@ const Products = ({ match }) => {
 
             <Box
               component={"fieldset"}
-              mb={3}
+              mb={2}
               borderColor='transparent'
             >
               <Typography component={"legend"}>
@@ -136,6 +144,22 @@ const Products = ({ match }) => {
                 onClick={() => setRatings(0)}
               />
             </Box>
+
+            <Button
+              variant='outlined'
+              onClick={(e) => {
+                if (reset === false) {
+                  setCurrentPage(1);
+                  setPrice([0, 160000]);
+                  setCategory("");
+                  setRatings(0);
+                }
+                return false;
+              }}
+              className='resetButton'
+            >
+              Reset
+            </Button>
           </div>
 
           {/* Pagination */}
