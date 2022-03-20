@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrors,
   login,
+  signup,
 } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 
@@ -57,7 +58,7 @@ const LoginSignUp = ({ history }) => {
     //   myForm.set("password_confirmation", password_confirmation);
     myForm.set("avatar", avatar);
 
-    console.log("SignUp Form submitted");
+    dispatch(signup(myForm));
   };
 
   const signUpDataChange = (e) => {

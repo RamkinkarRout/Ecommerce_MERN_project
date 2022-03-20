@@ -3,6 +3,9 @@ import {
   ALL_LOGIN_SUCCESS,
   ALL_LOGIN_REQUEST,
   CLEAR_ERROR,
+  ALL_SIGNUP_USER_FAILURE,
+  ALL_SIGNUP_USER_REQUEST,
+  ALL_SIGNUP_USER_SUCCESS,
 } from "../constants/userConstants";
 
 export const userReducer = (
@@ -11,11 +14,13 @@ export const userReducer = (
 ) => {
   switch (action.type) {
     case ALL_LOGIN_REQUEST:
+    case ALL_SIGNUP_USER_REQUEST:
       return {
         loading: true,
         isAuthenticated: false,
       };
     case ALL_LOGIN_SUCCESS:
+    case ALL_SIGNUP_USER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -23,6 +28,7 @@ export const userReducer = (
         user: action.payload,
       };
     case ALL_LOGIN_FAILURE:
+    case ALL_SIGNUP_USER_FAILURE:
       return {
         ...state,
         loading: false,
