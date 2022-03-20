@@ -157,3 +157,51 @@
 .shiftToNeutralForm {
   transform: translateX(0%) translateY(-100%);
 }
+
+@media screen and (max-width: 600px) {
+  .LoginSignUpContainer {
+    background-color: white;
+  }
+  .LoginSignUpBox {
+    width: 100vw;
+    height: 95vh;
+  }
+  .login_signUp_toggle {
+    height: 5vmax;
+  }
+  .login_signUp_toggle > p {
+    font: 300 1.5vmax "Roboto", sans-serif;
+  }
+  .loginForm,
+  .signUpForm {
+    padding: 5vmax;
+  }
+  .loginForm > div > input,
+  .signUpForm > div > input {
+    padding: 2.5 vmax 5vmax;
+    font: 300 1.7vmax "Roboto", sans-serif;
+  }
+
+  .loginForm > div > svg,
+  .signUpForm > div > svg {
+    font-size: 2.8vmax;
+  }
+  #signUpImage > img {
+    width: 3.5vmax;
+  }
+
+  .loginForm > a {
+    font: 300 1.8vmax "Roboto", sans-serif;
+  }
+
+  #signUpImage > input::first-letter-button {
+    height: 7vh;
+    font: 400 1.8vmax "Roboto", sans-serif;
+  }
+
+  .loginBtn,
+  .signUpBtn {
+    font: 300 1.9vmax "Roboto", sans-serif;
+    padding: 1.8vmax;
+  }
+}

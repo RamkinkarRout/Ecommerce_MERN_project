@@ -22,13 +22,14 @@
 .banner > a > button {
   margin-bottom: 5vmax;
   cursor: pointer;
-  background-color: white;
-  border: 1px solid white;
+  background-color: #fca92d;
+  border: 1px solid #fc9b2d;
   border-radius: 0;
   padding: 1vmax;
   transition: all 0.5s;
   width: 9vmax;
   font: 300 1vmax "Roboto";
+  /* color: white; */
 }
 .banner > a > button:hover {
   background-color: rgba(255, 255, 255, 0);
