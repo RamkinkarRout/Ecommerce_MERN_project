@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrors,
   login,
-  signup,
+  signUp,
 } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 
@@ -38,7 +38,7 @@ const LoginSignUp = ({ history }) => {
     password: "",
   });
   const { name, email, password } = user;
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState("/man.png");
   const [avatarPreview, setAvatarPreview] =
     useState("/man.png");
 
@@ -55,10 +55,9 @@ const LoginSignUp = ({ history }) => {
     myForm.set("name", name);
     myForm.set("email", email);
     myForm.set("password", password);
-    //   myForm.set("password_confirmation", password_confirmation);
     myForm.set("avatar", avatar);
 
-    dispatch(signup(myForm));
+    dispatch(signUp(myForm));
   };
 
   const signUpDataChange = (e) => {
@@ -71,6 +70,7 @@ const LoginSignUp = ({ history }) => {
           setAvatar(reader.result);
         }
       };
+      reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }

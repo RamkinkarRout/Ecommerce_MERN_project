@@ -7,16 +7,16 @@ import {
   ALL_SIGNUP_USER_REQUEST,
   ALL_SIGNUP_USER_SUCCESS,
 } from "../constants/userConstants";
+import axios from "axios";
 
-import axios, { Axios } from "axios";
-
+//login
 export const login =
   (email, password) => async (dispatch) => {
     try {
       dispatch({ type: ALL_LOGIN_REQUEST });
 
       const config = {
-        Headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       };
 
       const { data } = await axios.post(
@@ -36,23 +36,17 @@ export const login =
     }
   };
 
-//clearing errors
-
-export const clearErrors = () => (dispatch) => {
-  dispatch({ type: CLEAR_ERROR });
-};
-
 //signup
 
-export const signup = (userData) => async (dispatch) => {
+export const signUp = (userData) => async (dispatch) => {
   try {
     dispatch({ type: ALL_SIGNUP_USER_REQUEST });
 
     const config = {
-      Headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "multipart/form-data" },
     };
 
-    const { data } = await Axios.post(
+    const { data } = await axios.post(
       "/api/version1/register",
       userData,
       config
@@ -68,4 +62,10 @@ export const signup = (userData) => async (dispatch) => {
       payload: error.response.data.message,
     });
   }
+};
+
+//clearing errors
+
+export const clearErrors = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR });
 };
