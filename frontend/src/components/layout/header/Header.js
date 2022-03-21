@@ -2,9 +2,11 @@ import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from "../../../images/logo.png";
 
+<ion-icon name='cart-outline'></ion-icon>;
+
 const options = {
-  burgerColor: "rgb(247, 211, 52)",
-  burgerColorHover: "#ffa900",
+  burgerColor: "rgb(255, 186, 96)",
+  burgerColorHover: "#ff9100",
   logo,
   logoWidth: "20vmax",
   navColor1: "white",

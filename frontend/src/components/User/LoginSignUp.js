@@ -60,17 +60,59 @@ const LoginSignUp = ({ history }) => {
     dispatch(signUp(myForm));
   };
 
-  const signUpDataChange = (e) => {
-    if (e.target.name === "avatar") {
-      const reader = new FileReader();
+  //decode encoded bas64 to image
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
+  // const decodeBase64Image = async (dataString) => {
+  //   let BufferConstructor = require("buffer").Buffer;
+  //   let Buffer = BufferConstructor;
+  //   var matches = dataString.match(
+  //       /^data:([A-Za-z-+\/]+);base64,(.+)$/
+  //     ),
+  //     response = {
+  //       type: null,
+  //       data: null,
+  //     };
+  //   return new Promise((resolve, reject) => {
+  //     if (matches.length !== 3) {
+  //       reject(new Error("Invalid input string"));
+  //     }
+  //     response.type = matches[1];
+  //     response.data = new Buffer(matches[2], "base64");
+  //     resolve(response);
+  //   })
+  //     .then((response) => {
+  //       return response;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  //to convert BAS64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // setAvatarPreview(reader.result);
+  // setAvatar(reader.result);
+
+  const signUpDataChange = async (e) => {
+    if (e.target.name === "avatar") {
+      const file = e.target.files[0];
+      const bas64 = await convertToBase64(file);
+      // const image = await decodeBase64Image(bas64);
+      setAvatarPreview(bas64);
+      setAvatar(bas64);
+      // const image = decodingBase64(bas64);
+
+      // setAvatarPreview(image);
+      // setAvatar(image);
+      // console.log(image);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }

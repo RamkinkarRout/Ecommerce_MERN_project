@@ -108,7 +108,7 @@
 
 .noProduct-link {
   background-color: transparent;
-  border: 1px solid #ffc267;
+  border: 1px solid #ffa41c;
   color: rgba(0, 0, 0, 0.67);
   padding: 1vmax 2vmax;
   text-align: center;
@@ -118,25 +118,25 @@
   margin: 2vmax auto;
   cursor: pointer;
   transition: all 0.3s;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .noProduct-link:hover {
-  background-color: #ffc267;
+  background-color: #ff9100;
   color: white;
 }
 
 .filterBox > fieldset {
-  border: 1px solid #ffb600;
+  border: 1px solid #ffa41c;
 }
 .resetButton {
-  border-color: #ffb600 !important;
+  border-color: #ffa41c !important;
   color: rgba(0, 0, 0, 0.589) !important;
   transition: all 0.5s !important;
 }
 .resetButton:hover {
   color: white !important;
-  background-color: #ffc267 !important;
+  background-color: #ff9100 !important;
 }
 
 @media screen and (max-width: 600px) {

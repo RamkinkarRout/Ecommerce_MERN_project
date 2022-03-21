@@ -12,6 +12,8 @@ import ProductDetails from "./components/productDetails/ProductDetails";
 import Products from "./components/products/Products.js";
 import Search from "./components/products/Search.js";
 import LoginSignUp from "./components/User/LoginSignUp";
+import store from "./store";
+import { loadUser } from "./actions/userAction";
 
 function App() {
   useEffect(() => {
@@ -25,6 +27,8 @@ function App() {
         ],
       },
     });
+
+    store.dispatch(loadUser());
   }, []);
   return (
     <Router>

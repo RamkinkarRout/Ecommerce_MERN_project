@@ -6,6 +6,9 @@ import {
   ALL_SIGNUP_USER_FAILURE,
   ALL_SIGNUP_USER_REQUEST,
   ALL_SIGNUP_USER_SUCCESS,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -59,6 +62,33 @@ export const signUp = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_SIGNUP_USER_FAILURE,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//load user
+
+export const loadUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_USER_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const { data } = await axios.get(
+      "/api/version1/me",
+      config
+    );
+
+    dispatch({
+      type: LOAD_USER_SUCCESS,
+      payload: data.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_FAILURE,
       payload: error.response.data.message,
     });
   }
