@@ -1,0 +1,16 @@
+.speedDial {
+  position: fixed;
+  top: 2.5vmax;
+  right: 20px;
+}
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
+  background-color: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.678);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
