@@ -1,0 +1,152 @@
+.updateProfileContainer {
+  margin-top: 10vmax;
+  width: 100%;
+  height: 100vh;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(233, 233, 233);
+  top: 0%;
+  left: 0%;
+}
+.updateProfileBox {
+  background-color: white;
+  width: 25vw;
+  height: 70vh;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.updateProfileBox > h2 {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.57);
+  font: 400 1.3vmax "Roboto", sans-serif;
+  padding: 1.3vmax;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.207);
+  margin: auto;
+  width: 50%;
+}
+
+.updateProfileForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: auto;
+  padding: 2vmax;
+  height: 70%;
+  transition: all 0.5s ease-in-out;
+}
+
+.updateProfileForm > div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.updateProfileForm > div > input {
+  width: 100%;
+  height: 3vmax;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.17);
+  padding: 0vmax 3vmax;
+  font: 300 1vmax "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.67);
+  transition: all 0.5s ease-in-out;
+  outline: #fca92d;
+}
+
+.updateProfileForm > div > svg {
+  position: absolute;
+  fill: #fca92d;
+  font-size: 1.6vmax;
+}
+
+#updateProfileImage > img {
+  width: 2vmax;
+  border-radius: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+
+#updateProfileImage > input {
+  display: flex;
+  padding: 0%;
+}
+
+#updateProfileImage > input::file-selector-button {
+  cursor: pointer;
+  width: 100%;
+  z-index: 2;
+  height: 5vh;
+  margin: 0%;
+  border: none;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  padding: 0 1vmax;
+  color: rgba(0, 0, 0, 0.67);
+  font: 300 1vmax "Roboto", sans-serif;
+  text-align: center;
+}
+#updateProfileImage > input::file-selector-button:hover {
+  color: #fca92d;
+}
+
+.updateProfileBtn {
+  border: none;
+  background-color: #f8b857;
+  color: white;
+  font: 300 0.9vmax "Roboto", sans-serif;
+  width: 100%;
+  padding: 0.8vmax;
+  cursor: pointer;
+  transition: all 0.5s;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.updateProfileBtn:hover {
+  background-color: #faa321;
+}
+
+@media screen and (max-width: 600px) {
+  .updateProfileContainer {
+    background-color: white;
+  }
+  .updateProfileBox {
+    width: 100vw;
+    height: 95vh;
+  }
+  .updateProfileBox > h2 {
+    font-size: 3.5vmax;
+  }
+
+  .updateProfileForm {
+    padding: 5vmax;
+  }
+  .updateProfileForm > div > input {
+    padding: 2.5vmax 5vmax;
+    font: 300 2.2vmax "Roboto", sans-serif;
+  }
+
+  .updateProfileForm > div > svg {
+    font-size: 3vmax;
+  }
+  #updateProfileImage > img {
+    width: 4.5vmax;
+    margin-bottom: 2.5vmax;
+  }
+
+  #updateProfileImage > input::first-letter-button {
+    height: 7vh;
+    font: 400 1.8vmax "Roboto", sans-serif;
+  }
+
+  .updateProfileBtn {
+    font: 300 1.9vmax "Roboto", sans-serif;
+    padding: 1.8vmax;
+  }
+}
