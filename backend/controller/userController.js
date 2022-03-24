@@ -103,9 +103,11 @@ exports.forgotPassword = catchAsyncError(
     await user.save({ validateBeforeSave: false });
 
     //create reset url
-    const resetUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/version1/password/reset/${resetToken}`;
+    // const resetUrl = `${req.protocol}://${req.get(
+    //   "host"
+    // )}/api/version1/password/reset/${resetToken}`;
+
+    const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
     const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a request to: \n\n ${resetUrl}`;
 
@@ -114,11 +116,11 @@ exports.forgotPassword = catchAsyncError(
         email: user.email,
         subject: "Store.io password recovery",
         message,
+        success: true,
       });
 
       res.status(200).json({
         status: "success",
-        success: true,
         message: `Email sent to ${user.email} with password reset link`,
       });
     } catch (err) {
@@ -136,21 +138,20 @@ exports.forgotPassword = catchAsyncError(
 exports.resetPassword = catchAsyncError(
   async (req, res, next) => {
     //get hashed token
-    const hashedToken = crypto
+    const resetPasswordToken = crypto
       .createHash("sha256")
       .update(req.params.token)
       .digest("hex");
 
-    //get user
     const user = await User.findOne({
-      resetPasswordToken: hashedToken,
+      resetPasswordToken,
       resetPasswordExpire: { $gt: Date.now() },
     });
 
     if (!user) {
       return next(
         new ErrorHander(
-          "Password reset token is invalid or has expired",
+          "Reset Password Token is invalid or has been expired",
           400
         )
       );
@@ -158,17 +159,16 @@ exports.resetPassword = catchAsyncError(
 
     if (req.body.password !== req.body.confirmPassword) {
       return next(
-        new ErrorHander("Passwords do not match", 400)
+        new ErrorHander("Password does not password", 400)
       );
     }
 
-    //set new password
     user.password = req.body.password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
+
     await user.save();
 
-    //send success response
     sendToken(user, 200, res);
   }
 );
