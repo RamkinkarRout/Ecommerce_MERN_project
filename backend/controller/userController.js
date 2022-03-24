@@ -15,7 +15,7 @@ exports.registerUser = catchAsyncError(
         folder: "avatars",
         width: 300,
         height: 300,
-        crop: "scale",
+        crop: "fill",
       }
     );
 
@@ -118,6 +118,7 @@ exports.forgotPassword = catchAsyncError(
 
       res.status(200).json({
         status: "success",
+        success: true,
         message: `Email sent to ${user.email} with password reset link`,
       });
     } catch (err) {
@@ -241,7 +242,7 @@ exports.updateUserProfile = catchAsyncError(
           folder: "avatars",
           width: 300,
           height: 300,
-          crop: "scale",
+          crop: "fill",
         }
       );
 
