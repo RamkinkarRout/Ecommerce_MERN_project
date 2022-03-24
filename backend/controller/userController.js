@@ -13,7 +13,8 @@ exports.registerUser = catchAsyncError(
       req.body.avatar,
       {
         folder: "avatars",
-        width: 150,
+        width: 300,
+        height: 300,
         crop: "scale",
       }
     );
@@ -238,7 +239,8 @@ exports.updateUserProfile = catchAsyncError(
         req.body.avatar,
         {
           folder: "avatars",
-          width: 150,
+          width: 300,
+          height: 300,
           crop: "scale",
         }
       );
@@ -261,6 +263,7 @@ exports.updateUserProfile = catchAsyncError(
 
     res.status(200).json({
       success: true,
+      user,
     });
   }
 );

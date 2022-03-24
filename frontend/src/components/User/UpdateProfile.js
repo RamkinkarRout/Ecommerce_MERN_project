@@ -43,17 +43,55 @@ const UpdateProfile = ({ history }) => {
     dispatch(updateProfile(myForm));
   };
 
-  const updateProfileDataChange = (e) => {
+  //creating canvas of image
+
+  const createCanvas = (file) => {
     const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatarPreview(reader.result);
-        setAvatar(reader.result);
-      }
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const MAX_WIDTH = 300;
+        const MAX_HEIGHT = 300;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx2 = canvas.getContext("2d");
+        ctx2.drawImage(img, 0, 0, width, height);
+        const dataurl = canvas.toDataURL("image/png");
+        console.log(dataurl);
+        setAvatarPreview(dataurl);
+        setAvatar(dataurl);
+      };
     };
+  };
 
-    reader.readAsDataURL(e.target.files[0]);
+  const updateProfileDataChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    if (name === "name") {
+      setName(value);
+    } else if (name === "email") {
+      setEmail(value);
+    } else if (name === "avatar") {
+      createCanvas(e.target.files[0]);
+    }
   };
 
   useEffect(() => {
@@ -105,9 +143,7 @@ const UpdateProfile = ({ history }) => {
                     required
                     name='name'
                     value={name}
-                    onChange={(e) =>
-                      setName(e.target.value)
-                    }
+                    onChange={updateProfileDataChange}
                   />
                 </div>
                 <div className='updateProfileEmail'>
@@ -118,9 +154,7 @@ const UpdateProfile = ({ history }) => {
                     required
                     name='email'
                     value={email}
-                    onChange={(e) =>
-                      setEmail(e.target.value)
-                    }
+                    onChange={updateProfileDataChange}
                   />
                 </div>
 

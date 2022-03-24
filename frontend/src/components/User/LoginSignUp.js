@@ -60,43 +60,54 @@ const LoginSignUp = ({ history }) => {
     dispatch(signUp(myForm));
   };
 
-  //decode encoded bas64 to image
+  //creating canvas of a image file
 
-  // const decodeBase64Image = async (dataString) => {
-  //   let BufferConstructor = require("buffer").Buffer;
-  //   let Buffer = BufferConstructor;
-  //   var matches = dataString.match(
-  //       /^data:([A-Za-z-+\/]+);base64,(.+)$/
-  //     ),
-  //     response = {
-  //       type: null,
-  //       data: null,
-  //     };
-  //   return new Promise((resolve, reject) => {
-  //     if (matches.length !== 3) {
-  //       reject(new Error("Invalid input string"));
-  //     }
-  //     response.type = matches[1];
-  //     response.data = new Buffer(matches[2], "base64");
-  //     resolve(response);
-  //   })
-  //     .then((response) => {
-  //       return response;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const createCanvas = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const MAX_WIDTH = 300;
+        const MAX_HEIGHT = 300;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx2 = canvas.getContext("2d");
+        ctx2.drawImage(img, 0, 0, width, height);
+        const dataurl = canvas.toDataURL("image/png");
+        console.log(dataurl);
+        setAvatarPreview(dataurl);
+        setAvatar(dataurl);
+      };
+    };
+  };
 
   //to convert BAS64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
 
   // setAvatarPreview(reader.result);
   // setAvatar(reader.result);
@@ -104,15 +115,7 @@ const LoginSignUp = ({ history }) => {
   const signUpDataChange = async (e) => {
     if (e.target.name === "avatar") {
       const file = e.target.files[0];
-      const bas64 = await convertToBase64(file);
-      // const image = await decodeBase64Image(bas64);
-      setAvatarPreview(bas64);
-      setAvatar(bas64);
-      // const image = decodingBase64(bas64);
-
-      // setAvatarPreview(image);
-      // setAvatar(image);
-      // console.log(image);
+      createCanvas(file);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
