@@ -49,7 +49,7 @@ const Profile = () => {
               </div>
               <div>
                 <Link to={"/orders"}>My Orders </Link>
-                <Link to={"/me/update/password"}>
+                <Link to={"/me/password/update"}>
                   Change Password
                 </Link>
               </div>

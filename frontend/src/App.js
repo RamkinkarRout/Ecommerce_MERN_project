@@ -19,6 +19,7 @@ import UserOptions from "./components/layout/header/UserOptions.js";
 import Profile from "./components/User/Profile.js";
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import UpdateProfile from "./components/User/UpdateProfile.js";
+import UpdatePassword from "./components/User/UpdatePassword.js";
 function App() {
   const { isAuthenticated, user } = useSelector(
     (state) => state.user
@@ -70,6 +71,13 @@ function App() {
         path={`/me/update/:id`}
         component={UpdateProfile}
       />
+
+      <ProtectedRoute
+        path='/me/password/update'
+        component={UpdatePassword}
+        exact
+      />
+
       <Route path='/login' exact component={LoginSignUp} />
       <Footer />
     </Router>

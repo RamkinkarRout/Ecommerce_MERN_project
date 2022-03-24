@@ -194,17 +194,19 @@ exports.updateUserPassword = catchAsyncError(
       "+password"
     );
 
-    if (
-      !(await user.comparePassword(req.body.oldPassword))
-    ) {
+    const isPasswordMatched = await user.comparePassword(
+      req.body.oldPassword
+    );
+
+    if (!isPasswordMatched) {
       return next(
-        new ErrorHander("Old Password is incorrect", 401)
+        new ErrorHander("Old password is incorrect", 400)
       );
     }
 
     if (req.body.newPassword !== req.body.confirmPassword) {
       return next(
-        new ErrorHander("Passwords do not match", 400)
+        new ErrorHander("password does not match", 400)
       );
     }
 
@@ -223,8 +225,29 @@ exports.updateUserProfile = catchAsyncError(
     const newUserData = {
       name: req.body.name,
       email: req.body.email,
-      //  avatar: req.body.avatar,
     };
+
+    if (req.body.avatar !== "") {
+      const user = await User.findById(req.user.id);
+
+      const imageId = user.avatar.public_id;
+
+      await cloudinary.v2.uploader.destroy(imageId);
+
+      const myCloud = await cloudinary.v2.uploader.upload(
+        req.body.avatar,
+        {
+          folder: "avatars",
+          width: 150,
+          crop: "scale",
+        }
+      );
+
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
 
     const user = await User.findByIdAndUpdate(
       req.user.id,
@@ -232,16 +255,15 @@ exports.updateUserProfile = catchAsyncError(
       {
         new: true,
         runValidators: true,
+        useFindAndModify: false,
       }
     );
 
     res.status(200).json({
-      status: "success",
-      user,
+      success: true,
     });
   }
 );
-
 //get all users(admin)
 
 exports.getAllUser = catchAsyncError(

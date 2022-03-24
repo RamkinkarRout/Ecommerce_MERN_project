@@ -5,7 +5,6 @@ import React, {
 } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import {
   clearErrors,
   loadUser,
@@ -18,9 +17,8 @@ import FaceIcon from "@material-ui/icons/Face";
 import Loader from "../layout/loader/Loader";
 import MetaData from "../layout/MetaData";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ history }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const alert = useAlert();
 
   const { user } = useSelector((state) => state.user);
@@ -30,41 +28,32 @@ const UpdateProfile = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState("/man.png");
+  const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] =
-    useState("/man.png");
+    useState("/Profile.png");
 
   const updateProfileSubmit = (e) => {
     e.preventDefault();
+
     const myForm = new FormData();
+
     myForm.set("name", name);
     myForm.set("email", email);
     myForm.set("avatar", avatar);
-
     dispatch(updateProfile(myForm));
   };
 
-  //to convert BAS64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  const updateProfileDataChange = (e) => {
+    const reader = new FileReader();
 
-  const updateProfileDataChange = async (e) => {
-    const file = e.target.files[0];
-    const bas64 = await convertToBase64(file);
-    // const image = await decodeBase64Image(bas64);
-    setAvatarPreview(bas64);
-    setAvatar(bas64);
-    // const image = decodingBase64(bas64);
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatarPreview(reader.result);
+        setAvatar(reader.result);
+      }
+    };
 
-    // setAvatarPreview(image);
-    // setAvatar(image);
-    // console.log(image);
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -80,26 +69,29 @@ const UpdateProfile = () => {
     }
 
     if (isUpdated) {
-      alert.success("Profile Updateed Successful");
+      alert.success("Profile Updated Successfully");
       dispatch(loadUser());
+
       history.push("/account");
 
       dispatch({
         type: UPDATE_PROFILE_RESET,
       });
     }
-  }, [alert, dispatch, error, history, isUpdated, user]);
-
+  }, [dispatch, error, alert, history, user, isUpdated]);
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title={`${user.name} Profile Update`} />
+          <MetaData title='Update Profile' />
           <div className='updateProfileContainer'>
             <div className='updateProfileBox'>
-              <h2>Update Profile</h2>
+              <h2 className='updateProfileHeading'>
+                Update Profile
+              </h2>
+
               <form
                 className='updateProfileForm'
                 encType='multipart/form-data'
@@ -113,10 +105,12 @@ const UpdateProfile = () => {
                     required
                     name='name'
                     value={name}
-                    onChange={updateProfileDataChange}
+                    onChange={(e) =>
+                      setName(e.target.value)
+                    }
                   />
                 </div>
-                <div className='singUpEmail'>
+                <div className='updateProfileEmail'>
                   <MailOutlineIcon />
                   <input
                     type='email'
@@ -124,7 +118,9 @@ const UpdateProfile = () => {
                     required
                     name='email'
                     value={email}
-                    onChange={updateProfileDataChange}
+                    onChange={(e) =>
+                      setEmail(e.target.value)
+                    }
                   />
                 </div>
 
@@ -142,9 +138,8 @@ const UpdateProfile = () => {
                 </div>
                 <input
                   type='submit'
-                  value='updateProfile'
+                  value='Update'
                   className='updateProfileBtn'
-                  disabled={loading ? true : false}
                 />
               </form>
             </div>

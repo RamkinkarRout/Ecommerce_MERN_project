@@ -19,8 +19,8 @@
 }
 
 .profileContainer > div:first-child > h1 {
-  color: rgba(0, 0, 0, 0.76);
-  font: 500 2.2vmax "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.67);
+  font: 500 3vmax "Roboto", sans-serif;
   transform: translateY(-2vmax);
 }
 
@@ -59,11 +59,12 @@
   align-items: flex-start;
 }
 .profileContainer > div:last-child > div > h4 {
-  color: rgba(0, 0, 0, 0.76);
-  font: 400 1.2vmax "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.67);
+  font: 500 2vmax "Roboto", sans-serif;
 }
 .profileContainer > div:last-child > div > p {
   color: rgba(0, 0, 0, 0.57);
+  font: 400 1.3vmax "Roboto", sans-serif;
   margin: 0.2vmax;
 }
 .profileContainer > div:last-child > div:last-child {
