@@ -109,19 +109,25 @@
 }
 .emptyCart > svg {
   font-size: 5vmax;
-  color: tomato;
+  color: #ffa41c;
 }
 .emptyCart > p {
+  margin-top: 1vmax;
   font-size: 2vmax;
 }
 .emptyCart > a {
-  background-color: rgb(51, 51, 51);
+  margin-top: 2vmax;
+  background-color: rgba(0, 0, 0, 0.76);
   color: white;
   border: none;
   padding: 1vmax 3vmax;
   cursor: pointer;
   font: 400 1vmax "Roboto";
   text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+.emptyCart > a:hover {
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 @media screen and (max-width: 600px) {

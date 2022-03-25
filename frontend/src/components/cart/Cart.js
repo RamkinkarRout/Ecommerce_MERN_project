@@ -43,11 +43,13 @@ const Cart = () => {
   return (
     <Fragment>
       <div className='cartPage'>
-        <div className='cartHeader'>
-          <p>Product</p>
-          <p>Quantity</p>
-          <p>Subtotal</p>
-        </div>
+        {cartItems && cartItems.length > 0 && (
+          <div className='cartHeader'>
+            <p>Product</p>
+            <p>Quantity</p>
+            <p>Subtotal</p>
+          </div>
+        )}
 
         {cartItems && cartItems.length > 0 ? (
           cartItems.map((item) => (
@@ -105,17 +107,24 @@ const Cart = () => {
           </div>
         )}
 
-        <div className='cartGrossTotal'>
-          <div></div>
-          <div className='cartGrossTotalBox'>
-            <p>Gross Total</p>
-            <p>₹{cartItems.price * cartItems.quantity}</p>
+        {cartItems && cartItems.length > 0 && (
+          <div className='cartGrossTotal'>
+            <div></div>
+            <div className='cartGrossTotalBox'>
+              <p>Gross Total</p>
+              <p>
+                {`₹
+                  ${cartItems.reduce((a, c) => {
+                    return a + c.price * c.quantity;
+                  }, 0)}`}
+              </p>
+            </div>
+            <div></div>
+            <div className='checkOutBtn'>
+              <button>Checkout</button>
+            </div>
           </div>
-          <div></div>
-          <div className='checkOutBtn'>
-            <button>Checkout</button>
-          </div>
-        </div>
+        )}
       </div>
     </Fragment>
   );

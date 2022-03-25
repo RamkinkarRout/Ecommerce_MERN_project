@@ -13,27 +13,55 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { logOut } from "../../../actions/userAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserOptions = ({ user }) => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
   const alert = useAlert();
   const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+
   const options = [
     {
-      icon: <ListAltIcon />,
+      icon: (
+        <ListAltIcon style={{ color: "rgba(0,0,0,0.7)" }} />
+      ),
       name: "Orders",
       func: orders,
     },
 
     {
-      icon: <PersonIcon />,
+      icon: (
+        <PersonIcon
+          style={{
+            color: "rgba(0,0,0,0.7)",
+          }}
+        />
+      ),
       name: "Profile",
       func: account,
     },
     {
-      icon: <ExitToAppIcon />,
+      icon: (
+        <ShoppingCartIcon
+          style={{
+            color:
+              cartItems.length > 0
+                ? "#ffa41c"
+                : "rgba(0,0,0,0.7)",
+          }}
+        />
+      ),
+      name: `Cart (${cartItems.length})`,
+      func: cart,
+    },
+    {
+      icon: (
+        <ExitToAppIcon
+          style={{ color: "rgba(0,0,0,0.7)" }}
+        />
+      ),
       name: "Logout",
       func: logoutUser,
     },
@@ -41,7 +69,11 @@ const UserOptions = ({ user }) => {
 
   if (user.role === "admin") {
     options.unshift({
-      icon: <DashboardIcon />,
+      icon: (
+        <DashboardIcon
+          style={{ color: "rgba(0,0,0,0.7)" }}
+        />
+      ),
       name: "Dashboard",
       func: dashboard,
     });
@@ -62,6 +94,10 @@ const UserOptions = ({ user }) => {
     dispatch(logOut());
     alert.success("Logged out successfully");
     history.push("/");
+  }
+
+  function cart() {
+    history.push("/cart");
   }
 
   return (
@@ -91,6 +127,9 @@ const UserOptions = ({ user }) => {
             icon={item.icon}
             tooltipTitle={item.name}
             onClick={item.func}
+            tooltipOpen={
+              window.innerWidth < 600 ? true : false
+            }
           />
         ))}
       </SpeedDial>
