@@ -52,7 +52,7 @@ const Shipping = () => {
       })
     );
 
-    history.push("order/confirm");
+    history.push("/order/confirm");
   };
 
   return (

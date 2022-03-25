@@ -9,7 +9,6 @@ const CartItemCard = ({
   name,
   price,
   image,
-  quantity,
   removeItemFromCart,
 }) => {
   return (
