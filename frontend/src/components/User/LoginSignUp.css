@@ -203,5 +203,6 @@
   .signUpBtn {
     font: 300 1.9vmax "Roboto", sans-serif;
     padding: 1.8vmax;
+    margin-top: 6vmax;
   }
 }

@@ -9,10 +9,15 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Country, State, City } from "country-state-city";
+import MetaData from "../layout/MetaData";
+import CheckOutStep from "./CheckOutStep.js";
+import { useHistory } from "react-router-dom";
+import { saveShippingInfo } from "../../actions/cartAction";
 
 const Shipping = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const history = useHistory();
 
   const { shippingInfo } = useSelector(
     (state) => state.cart
@@ -28,10 +33,34 @@ const Shipping = () => {
   const [phone, setPhone] = useState(shippingInfo.phone);
   const [zip, setZip] = useState(shippingInfo.zip);
 
-  const shippigSubmitHandler = (e) => {};
+  const shippigSubmitHandler = (e) => {
+    e.preventDefault();
+
+    if (phone.length < 10 || phone.length > 10) {
+      alert.error("Phone Number should be 10 digits Long");
+      return;
+    }
+
+    dispatch(
+      saveShippingInfo({
+        address,
+        city,
+        state,
+        country,
+        phone,
+        zip,
+      })
+    );
+
+    history.push("order/confirm");
+  };
 
   return (
     <Fragment>
+      <MetaData title={"Shipping Details"} />
+
+      <CheckOutStep activeStep={0} />
+
       <div className='shippingContainer'>
         <div className='shippingBox'>
           <h2 className='shippingHeading'>
@@ -56,7 +85,7 @@ const Shipping = () => {
             <div>
               <PhoneIcon />
               <input
-                type='text'
+                type='number'
                 placeholder='Phone'
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -66,11 +95,12 @@ const Shipping = () => {
             <div>
               <PinDropIcon />
               <input
-                type='text'
+                type='number'
                 placeholder='Zip code'
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
                 required
+                size={10}
               />
             </div>
 
@@ -144,6 +174,13 @@ const Shipping = () => {
                 </select>
               </div>
             )}
+
+            <input
+              type='submit'
+              value={"Continue"}
+              className='shippingBtn'
+              disabled={state ? false : true}
+            />
           </form>
         </div>
       </div>
