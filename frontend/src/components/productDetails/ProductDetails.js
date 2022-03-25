@@ -1,4 +1,8 @@
-import React, { Fragment, useEffect } from "react";
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+} from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 
@@ -12,6 +16,7 @@ import Loader from "../layout/loader/Loader";
 import MetaData from "../layout/MetaData";
 import ReviewCard from "./ReviewCard";
 import { useAlert } from "react-alert";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
@@ -20,6 +25,30 @@ const ProductDetails = ({ match }) => {
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
+
+  const [quantiy, setquantiy] = useState(1);
+
+  const increaseQuantity = () => {
+    if (quantiy < product.stock) {
+      setquantiy(quantiy + 1);
+    } else {
+      alert.show(
+        "You can not add more than available quantity"
+      );
+    }
+  };
+
+  const decreaseQuantity = () => {
+    if (quantiy > 1) {
+      setquantiy(quantiy - 1);
+    }
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(match.params.id, quantiy));
+    alert.show("Item added to cart");
+  };
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -77,19 +106,27 @@ const ProductDetails = ({ match }) => {
                 <h1>{`₹${product.price}`}</h1>
                 <div className='detailsBlock-3-1'>
                   <div className='detailsBlock-3-1-1'>
-                    <button onClick={() => {}}>-</button>
+                    <button
+                      onClick={() => decreaseQuantity()}
+                    >
+                      -
+                    </button>
                     <input
                       readOnly
                       type='number'
-                      value={1}
+                      value={quantiy}
                     />
-                    <button onClick={() => {}}>+</button>
+                    <button
+                      onClick={() => increaseQuantity()}
+                    >
+                      +
+                    </button>
                   </div>
                   <button
                     disabled={
                       product.Stock < 1 ? true : false
                     }
-                    onClick={() => {}}
+                    onClick={() => addToCartHandler()}
                   >
                     Add to Cart
                   </button>
