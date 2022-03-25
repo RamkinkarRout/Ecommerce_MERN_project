@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FaceIcon from "@material-ui/icons/Face";
@@ -21,6 +21,10 @@ import { useAlert } from "react-alert";
 const LoginSignUp = ({ history }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const location = useLocation();
+  const redirect = location.search
+    ? location.search.split("=")[1]
+    : "/";
 
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
@@ -129,7 +133,7 @@ const LoginSignUp = ({ history }) => {
 
     if (isAuthenticated) {
       alert.success("Login Successful");
-      history.push("/account");
+      history.push(redirect);
     }
   }, [error, alert, dispatch, isAuthenticated, history]);
 

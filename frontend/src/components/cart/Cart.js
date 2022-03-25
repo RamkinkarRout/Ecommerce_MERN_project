@@ -4,16 +4,18 @@ import "./cart.css";
 import CartItemCard from "./CartItemCard";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   addItemsToCart,
   removeCartItem,
 } from "../../actions/cartAction";
 import { useAlert } from "react-alert";
+import MetaData from "../layout/MetaData";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const history = useHistory();
   const { cartItems } = useSelector((state) => state.cart);
 
   const decreaseQuantity = (id, quantity) => {
@@ -40,8 +42,12 @@ const Cart = () => {
     // console.log(id);
   };
 
+  const checkOutHandler = () => {
+    history.push("/login?redirect=shipping");
+  };
   return (
     <Fragment>
+      <MetaData title='Your Cart' />
       <div className='cartPage'>
         {cartItems && cartItems.length > 0 && (
           <div className='cartHeader'>
@@ -121,7 +127,13 @@ const Cart = () => {
             </div>
             <div></div>
             <div className='checkOutBtn'>
-              <button>Checkout</button>
+              <button
+                onClick={() => {
+                  checkOutHandler();
+                }}
+              >
+                Checkout
+              </button>
             </div>
           </div>
         )}

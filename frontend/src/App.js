@@ -23,6 +23,7 @@ import UpdatePassword from "./components/User/UpdatePassword.js";
 import ForgotPassword from "./components/User/ForgotPassword.js";
 import ResetPassword from "./components/User/ResetPassword.js";
 import Cart from "./components/cart/Cart.js";
+import Shipping from "./components/cart/Shipping";
 
 function App() {
   const { isAuthenticated, user } = useSelector(
@@ -96,6 +97,11 @@ function App() {
       <Route path='/cart' component={Cart} exact />
 
       <Route path='/login' exact component={LoginSignUp} />
+      <ProtectedRoute
+        path='/shipping'
+        component={Shipping}
+        exact
+      />
       <Footer />
     </Router>
   );

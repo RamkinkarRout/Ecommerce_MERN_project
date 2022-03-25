@@ -18,7 +18,7 @@ const backgroundImageURL = [
   "http://trumpwallpapers.com/wp-content/uploads/Amazon-Wallpaper-24-2560-x-1600.jpg",
   "http://trumpwallpapers.com/wp-content/uploads/Amazon-Wallpaper-15-1920-x-1200.jpg",
   "http://trumpwallpapers.com/wp-content/uploads/Amazon-Wallpaper-09-1920-x-1200.jpg",
-  "https://besthqwallpapers.com/Uploads/15-10-2021/178195/amazon-carbon-logo-4k-grunge-art-carbon-background-creative.jpg",
+  "http://trumpwallpapers.com/wp-content/uploads/Amazon-Wallpaper-04-1920-x-1200.jpg",
   "https://wallpaperaccess.com/full/1308165.jpg",
   "https://m.wsj.net/video/20181218/121818amazonhacks1/121818amazonhacks1_1920x1080.jpg",
 ];
