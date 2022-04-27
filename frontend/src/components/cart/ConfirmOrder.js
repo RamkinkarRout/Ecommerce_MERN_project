@@ -1,17 +1,47 @@
 import { Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import CheckOutStep from "./CheckOutStep";
 import "./ConfirmOrder.css";
 
 const ConfirmOrder = () => {
+  const history = useHistory();
+
   const { shippingInfo, cartItems } = useSelector(
     (state) => state.cart
   );
 
   const { user } = useSelector((state) => state.user);
+
+  const subtotal = cartItems.reduce(
+    (a, c) => a + c.quantity * c.price,
+    0
+  );
+
+  const shippingCharges = subtotal > 1000 ? 0 : 200;
+
+  const tax = subtotal * 0.18;
+
+  const totalPrice = subtotal + tax + shippingCharges;
+
+  const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zip}, ${shippingInfo.country}, `;
+
+  const proceedToPayment = () => {
+    const data = {
+      subtotal,
+      shippingCharges,
+      tax,
+      totalPrice,
+    };
+
+    sessionStorage.setItem(
+      "orderInfo",
+      JSON.stringify(data)
+    );
+    history.push("/process/payment");
+  };
 
   return (
     <Fragment>
@@ -19,8 +49,10 @@ const ConfirmOrder = () => {
       <CheckOutStep activeStep={1} />
       <div className='confirmOrderPage'>
         <div>
-          <div className='consfirmShippingArea'>
-            <div className='confirmShippingAreaBoc'>
+          <div className='confirmshippingArea'>
+            <Typography>Shipping Info</Typography>
+
+            <div className='confirmshippingAreaBox'>
               <div>
                 <p>Name:</p>
                 <span>{user.name}</span>
@@ -31,12 +63,12 @@ const ConfirmOrder = () => {
               </div>{" "}
               <div>
                 <p>Address:</p>
-                <span>{shippingInfo.address}</span>
+                <span>{address}</span>
               </div>
             </div>
           </div>
 
-          <div className='confirmCartItem'>
+          <div className='confirmCartItems'>
             <Typography>Your Cart Items</Typography>
             <div className='confirmCartItemsContainer'>
               {cartItems &&
@@ -47,7 +79,7 @@ const ConfirmOrder = () => {
                       {item.name}
                     </Link>
                     <span>
-                      {item.count} x ₹${item.price} ={" "}
+                      {item.quantity} x ₹{item.price} ={" "}
                       <b>{`₹${
                         item.price * item.quantity
                       }`}</b>
@@ -60,7 +92,36 @@ const ConfirmOrder = () => {
 
         {/* /////////////////////////////// */}
 
-        <div></div>
+        <div>
+          <div className='orderSummary'>
+            <Typography>Order Summery:</Typography>
+            <div>
+              <div>
+                <p>Subtotal:</p>
+                <span>₹{subtotal}</span>
+              </div>
+              <div>
+                <p>Shipping Charges:</p>
+                <span>₹{shippingCharges}</span>
+              </div>
+              <div>
+                <p>GST:</p>
+                <span>₹{tax}</span>
+              </div>
+            </div>
+
+            <div className='orderSummaryTotal'>
+              <p>
+                <b>Total:</b>
+              </p>
+              <span>₹{totalPrice}</span>
+            </div>
+
+            <button onClick={proceedToPayment}>
+              Proceed to Payment
+            </button>
+          </div>
+        </div>
       </div>
     </Fragment>
   );
