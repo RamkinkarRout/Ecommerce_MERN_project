@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -25,11 +25,27 @@ import ResetPassword from "./components/User/ResetPassword.js";
 import Cart from "./components/cart/Cart.js";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder.js";
+import axios from "axios";
+import Payment from "./components/cart/Payment.js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function App() {
   const { isAuthenticated, user } = useSelector(
     (state) => state.user
   );
+
+  const [stripePublicKey, setStripePublicKey] =
+    useState("");
+
+  async function getStripePublicKey() {
+    const { data } = await axios.get(
+      "/api/version1/stripePublicKey"
+    );
+    setStripePublicKey(data.stripe_public_key);
+  }
+
+  // console.log("stripe", stripePublicKey);
 
   useEffect(() => {
     Webfont.load({
@@ -44,6 +60,8 @@ function App() {
     });
 
     store.dispatch(loadUser());
+
+    getStripePublicKey();
   }, []);
   return (
     <Router>
@@ -109,6 +127,14 @@ function App() {
         component={ConfirmOrder}
         exact
       />
+
+      <Elements stripe={loadStripe(stripePublicKey)}>
+        <ProtectedRoute
+          path='/payment/process'
+          component={Payment}
+          exact
+        />
+      </Elements>
 
       <Footer />
     </Router>

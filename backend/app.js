@@ -4,6 +4,11 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const errormiddleware = require("./middleware/error");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
+
+//config
+
+dotenv.config({ path: "backend/config/config.env" });
 
 app.use(express.json({ limit: "50mb" }));
 app.use(
@@ -19,10 +24,12 @@ app.use(fileUpload());
 const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
+const payment = require("./routes/paymentRoute");
 
 app.use("/api/version1", product);
 app.use("/api/version1/", user);
 app.use("/api/version1/", order);
+app.use("/api/version1/", payment);
 
 //middleware for error handling
 app.use(errormiddleware);
