@@ -40,7 +40,7 @@ const ConfirmOrder = () => {
       "orderInfo",
       JSON.stringify(data)
     );
-    history.push("/payment/process");
+    history.push("/process/payment");
   };
 
   return (

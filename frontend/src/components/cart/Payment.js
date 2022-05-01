@@ -1,10 +1,9 @@
-import { Typography } from "@material-ui/core";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
+import { Typography } from "@material-ui/core";
+import { useAlert } from "react-alert";
 import CheckOutStep from "./CheckOutStep";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
-import EventIcon from "@material-ui/icons/Event";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import {
   CardNumberElement,
   CardCvcElement,
@@ -13,28 +12,33 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-import "./payment.css";
-import { useAlert } from "react-alert";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import "./payment.css";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
+import EventIcon from "@material-ui/icons/Event";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import {
+  clearErrors,
+  createOrder,
+} from "../../actions/orderAction";
 
-const Payment = () => {
-  const alert = useAlert();
+const Payment = ({ history }) => {
+  const orderInfo = JSON.parse(
+    sessionStorage.getItem("orderInfo")
+  );
+
   const dispatch = useDispatch();
+  const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
-  const history = useHistory();
+  const payBtn = useRef(null);
 
   const { shippingInfo, cartItems } = useSelector(
     (state) => state.cart
   );
   const { user } = useSelector((state) => state.user);
-  const orderInfo = JSON.parse(
-    sessionStorage.getItem("orderInfo")
-  );
 
-  const payBtn = useRef(null);
+  const { error } = useSelector((state) => state.newOrder);
 
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
@@ -51,6 +55,7 @@ const Payment = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     payBtn.current.disabled = true;
 
     try {
@@ -59,7 +64,6 @@ const Payment = () => {
           "Content-Type": "application/json",
         },
       };
-
       const { data } = await axios.post(
         "/api/version1/payment/process",
         paymentData,
@@ -68,9 +72,7 @@ const Payment = () => {
 
       const client_secret = data.client_secret;
 
-      if (!stripe || !elements) {
-        return;
-      }
+      if (!stripe || !elements) return;
 
       const result = await stripe.confirmCardPayment(
         client_secret,
@@ -94,20 +96,36 @@ const Payment = () => {
 
       if (result.error) {
         payBtn.current.disabled = false;
+
         alert.error(result.error.message);
       } else {
-        if (result.paymentIntent.status === "success") {
-          alert.success("Payment Successful");
+        if (result.paymentIntent.status === "succeeded") {
+          order.paymentInfo = {
+            id: result.paymentIntent.id,
+            status: result.paymentIntent.status,
+          };
+
+          dispatch(createOrder(order));
+
           history.push("/success");
         } else {
-          alert.error("Payment Failed");
+          alert.error(
+            "There's some issue while processing payment "
+          );
         }
       }
-    } catch (err) {
+    } catch (error) {
       payBtn.current.disabled = false;
-      alert.error(err.response.data.message);
+      alert.error(error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error, alert]);
 
   return (
     <Fragment>
