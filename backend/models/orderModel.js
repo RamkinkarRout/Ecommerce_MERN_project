@@ -18,11 +18,11 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    pinCode: {
+    zip: {
       type: Number,
       required: true,
     },
-    phoneNo: {
+    phone: {
       type: Number,
       required: true,
     },

@@ -30,6 +30,7 @@ import Payment from "./components/cart/Payment.js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./components/cart/OrderSuccess.js";
+import MyOrders from "./components/orders/MyOrders.js";
 
 function App() {
   const { isAuthenticated, user } = useSelector(
@@ -63,7 +64,7 @@ function App() {
     store.dispatch(loadUser());
 
     getStripePublicKey();
-  }, [stripePublicKey]);
+  }, []);
   return (
     <Router>
       <Header />
@@ -143,6 +144,11 @@ function App() {
         exact
         path='/success'
         component={OrderSuccess}
+      />
+      <ProtectedRoute
+        exact
+        path='/orders'
+        component={MyOrders}
       />
 
       <Footer />

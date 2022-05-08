@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
+    "@material-ui/data-grid": "^4.0.0-alpha.37",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@stripe/react-stripe-js": "^1.7.2",
@@ -56,5 +57,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://10.150.5.218:4500"
+  "proxy": "http://10.150.5.37:4500"
 }

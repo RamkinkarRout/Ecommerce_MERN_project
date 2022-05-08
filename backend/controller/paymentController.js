@@ -10,7 +10,7 @@ exports.processPayment = catchAsyncError(
       amount: req.body.amount,
       currency: "inr",
       metadata: {
-        comapny: "E-commerce",
+        company: "Ecommerce",
       },
     });
 
